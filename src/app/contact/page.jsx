@@ -263,12 +263,12 @@ const ContactPage = () => {
                     Email
                   </p>
                   <a
-                    href="mailto:umar.kukarkhoev@gmail.com"
+                    href="mailto:umarkukarkho@gmail.com"
                     className="hover:text-muted-foreground inline-flex items-center gap-3 text-lg transition-colors"
                   >
                     <Mail className="h-5 w-5" />
                     <span className="relative">
-                      umar.kukarkhoev@gmail.com
+                      umarkukarkho@gmail.com
                       <span className="bg-foreground absolute bottom-0 left-0 h-px w-full origin-left scale-x-0 transition-transform group-hover:scale-x-100" />
                     </span>
                   </a>

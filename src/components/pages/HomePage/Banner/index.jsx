@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 import { useScreenSize } from "@/hooks/useScreenSize";
 
@@ -9,10 +10,13 @@ import { Button } from "@/components/ui/button";
 
 import { Play } from "lucide-react";
 import { X } from "lucide-react";
+import { Mail } from "lucide-react";
 
 const Banner = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const screenSize = useScreenSize();
+
+  const router = useRouter();
 
   const openModal = () => {
     if (screenSize >= 1280) {
@@ -77,16 +81,47 @@ const Banner = () => {
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.5 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
           >
             <Button
               size="lg"
-              className="group cursor-pointer gap-3 rounded-full px-8 py-6 text-base xl:hidden"
+              className="w-[182px] cursor-pointer gap-3 rounded-full px-8 py-6 text-base active:scale-95 xl:hidden"
               onClick={openModal}
             >
-              <Play className="h-4 w-4 transition-transform group-hover:scale-110" />
+              <Play className="h-4 w-4 transition-transform" />
               Voir le Showreel
             </Button>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+          >
+            {screenSize > 1280 ? (
+              <Button
+                size="lg"
+                className="mt-3 w-[182px] cursor-pointer gap-3 rounded-full px-8 py-6 text-base active:scale-95"
+                variant="outline"
+                onClick={() => {
+                  router.push("/contact");
+                }}
+              >
+                {" "}
+                <Mail className="h-4 w-4" /> Me contacter{" "}
+              </Button>
+            ) : (
+              <Button
+                size="lg"
+                className="mt-3 w-[182px] cursor-pointer gap-3 rounded-full bg-[#1E3A8A] px-8 py-6 text-base text-white shadow-md transition-all duration-200 hover:bg-[#172554] active:scale-95"
+                onClick={() => {
+                  router.push("/contact");
+                }}
+              >
+                <Mail className="h-4 w-4" />
+                Me contacter
+              </Button>
+            )}
           </motion.div>
         </div>
 
