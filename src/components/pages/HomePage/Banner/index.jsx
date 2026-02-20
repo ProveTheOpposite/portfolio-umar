@@ -5,29 +5,30 @@ import { useCallback, useState } from "react";
 import { useScreenSize } from "@/hooks/useScreenSize";
 
 import { motion, AnimatePresence } from "framer-motion";
-
 import { Button } from "@/components/ui/button";
 
-import { Play } from "lucide-react";
-import { X } from "lucide-react";
-import { Mail } from "lucide-react";
+import { Play, X, Mail } from "lucide-react";
+import Image from "next/image";
 
 const Banner = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const screenSize = useScreenSize();
+  const [isShowreelLoaded, setIsShowreelLoaded] = useState(false);
 
+  const screenSize = useScreenSize();
   const router = useRouter();
 
+  const isDesktop = screenSize >= 1280;
+
   const openModal = () => {
-    if (screenSize >= 1280) {
-      return;
-    }
+    if (isDesktop) return;
     setIsModalOpen(true);
   };
 
   const closeModal = useCallback(() => {
     setIsModalOpen(false);
   }, []);
+
+  console.log(isShowreelLoaded);
 
   return (
     <>
@@ -37,13 +38,30 @@ const Banner = () => {
           <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.03)_1px,transparent_1px)] bg-size-[4rem_4rem] xl:hidden" />
         </div>
 
+        {/* Poster */}
+        <Image
+          src="/images/showreel-poster.webp"
+          alt="Image de présentation du showreel"
+          fill
+          priority
+          className={`object-cover transition-opacity duration-700 ${
+            isShowreelLoaded ? "opacity-0" : "opacity-100"
+          }`}
+        />
+
         <video
-          className="absolute hidden w-full xl:block"
+          className={`absolute inset-0 hidden h-full w-full object-cover transition-opacity duration-700 xl:block ${
+            isShowreelLoaded ? "opacity-100" : "opacity-0"
+          }`}
           autoPlay
           muted
           loop
+          playsInline
+          preload="auto"
+          aria-hidden="true"
+          onLoadedData={() => setIsShowreelLoaded(true)}
           src="/videos/showreel.mp4"
-        ></video>
+        />
 
         <div className="absolute inset-0 hidden bg-black/50 xl:block" />
 
@@ -62,11 +80,11 @@ const Banner = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-foreground mb-8 text-5xl font-medium tracking-tight text-balance md:text-7xl lg:text-8xl xl:text-white"
+            className="text-foreground mb-8 text-5xl font-medium tracking-tight md:text-7xl lg:text-8xl xl:text-white"
           >
             Motion Designer
             <br />
-            <span className="text-muted-foreground">&</span> Monteur Video
+            <span className="text-muted-foreground">&</span> Monteur Vidéo
           </motion.h1>
 
           <motion.p
@@ -78,6 +96,24 @@ const Banner = () => {
             &ldquo;Get busy living or get busy dying.&rdquo;
           </motion.p>
 
+          {/* Showreel Button (Mobile only) */}
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="xl:hidden"
+          >
+            <Button
+              size="lg"
+              className="w-[182px] gap-3 rounded-full px-8 py-6 text-base active:scale-95"
+              onClick={openModal}
+            >
+              <Play className="h-4 w-4" />
+              Voir le Showreel
+            </Button>
+          </motion.div>
+
+          {/* Contact Button */}
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
@@ -85,43 +121,15 @@ const Banner = () => {
           >
             <Button
               size="lg"
-              className="w-[182px] cursor-pointer gap-3 rounded-full px-8 py-6 text-base active:scale-95 xl:hidden"
-              onClick={openModal}
+              variant={isDesktop ? "outline" : "default"}
+              className={`mt-3 w-[182px] gap-3 rounded-full px-8 py-6 text-base active:scale-95 ${
+                !isDesktop ? "bg-[#1E3A8A] text-white hover:bg-[#172554]" : ""
+              }`}
+              onClick={() => router.push("/contact")}
             >
-              <Play className="h-4 w-4 transition-transform" />
-              Voir le Showreel
+              <Mail className="h-4 w-4" />
+              Me contacter
             </Button>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-          >
-            {screenSize > 1280 ? (
-              <Button
-                size="lg"
-                className="mt-3 w-[182px] cursor-pointer gap-3 rounded-full px-8 py-6 text-base active:scale-95"
-                variant="outline"
-                onClick={() => {
-                  router.push("/contact");
-                }}
-              >
-                {" "}
-                <Mail className="h-4 w-4" /> Me contacter{" "}
-              </Button>
-            ) : (
-              <Button
-                size="lg"
-                className="mt-3 w-[182px] cursor-pointer gap-3 rounded-full bg-[#1E3A8A] px-8 py-6 text-base text-white shadow-md transition-all duration-200 hover:bg-[#172554] active:scale-95"
-                onClick={() => {
-                  router.push("/contact");
-                }}
-              >
-                <Mail className="h-4 w-4" />
-                Me contacter
-              </Button>
-            )}
           </motion.div>
         </div>
 
@@ -147,8 +155,8 @@ const Banner = () => {
       </section>
 
       {/* Modal */}
-      {isModalOpen && (
-        <AnimatePresence>
+      <AnimatePresence>
+        {isModalOpen && !isDesktop && (
           <motion.div
             className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8"
             initial={{ opacity: 0 }}
@@ -156,35 +164,26 @@ const Banner = () => {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
           >
-            {/* Backdrop */}
             <motion.div
               className="bg-foreground/80 absolute inset-0 backdrop-blur-sm"
               onClick={closeModal}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
             />
 
-            {/* Content */}
             <motion.div
               className="relative z-10 w-full max-w-5xl"
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              transition={{ duration: 0.25, ease: "easeOut" }}
+              transition={{ duration: 0.25 }}
             >
-              {/* Close button */}
-              <motion.button
-                className="bg-background/10 text-background hover:bg-background/20 absolute -top-12 right-0 flex h-9 w-9 cursor-pointer items-center justify-center rounded-full backdrop-blur-sm transition-colors"
+              <button
+                className="absolute -top-12 right-0 flex h-9 w-9 items-center justify-center rounded-full bg-white/10 backdrop-blur-sm"
                 onClick={closeModal}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
               >
                 <X className="h-5 w-5" />
-              </motion.button>
+              </button>
 
-              {/* Video */}
-              <div className="bg-foreground/20 aspect-video overflow-hidden rounded-xl">
+              <div className="aspect-video overflow-hidden rounded-xl bg-black">
                 <video
                   src="/videos/showreel.mp4"
                   className="h-full w-full object-contain"
@@ -195,13 +194,13 @@ const Banner = () => {
                 />
               </div>
 
-              <p className="text-background/50 mt-4 text-center text-sm">
+              <p className="mt-4 text-center text-sm text-white/50">
                 Showreel 2025
               </p>
             </motion.div>
           </motion.div>
-        </AnimatePresence>
-      )}
+        )}
+      </AnimatePresence>
     </>
   );
 };

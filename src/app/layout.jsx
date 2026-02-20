@@ -14,6 +14,15 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="fr">
+      <head>
+        <link
+          rel="preload"
+          href="/videos/showreel.mp4"
+          as="video"
+          type="video/mp4"
+        />
+      </head>
+
       <body className={`${inter.variable} ${spaceGrotesk.variable}`}>
         <Header />
         <main className="flex min-h-screen flex-col">{children}</main>
