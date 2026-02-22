@@ -25,6 +25,9 @@ const Header = () => {
 
   const pathname = usePathname();
 
+  const isProjectDetail =
+    pathname.startsWith("/projects/") && pathname !== "/projects";
+
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
@@ -33,12 +36,16 @@ const Header = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // TODO : Resoudre le problème de header au scroll sur la page /projects/[slug] et sur la page home quand on scroll
+
   return (
     <header
       className={`${
-        scrolled || pathname !== "/" || screenSize < 1280
-          ? "bg-background/80 border-b backdrop-blur-md"
-          : "bg-transparent"
+        isProjectDetail
+          ? scrolled
+          : scrolled || pathname !== "/" || screenSize < 1280
+            ? "bg-background/80 border-b backdrop-blur-md"
+            : "bg-transparent"
       } border-border fixed top-0 right-0 left-0 z-50`}
     >
       <div className="mx-auto max-w-6xl px-6">
