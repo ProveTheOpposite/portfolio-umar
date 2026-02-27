@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useScreenSize } from "@/hooks/useScreenSize";
 
 import { motion, AnimatePresence } from "framer-motion";
@@ -38,29 +38,33 @@ const Banner = () => {
         </div>
 
         {/* Poster */}
-        <Image
-          src="/images/showreel-poster.webp"
-          alt="Image de présentation du showreel"
-          fill
-          priority
-          className={`object-cover transition-opacity duration-700 ${
-            isShowreelLoaded ? "opacity-0" : "opacity-100"
-          }`}
-        />
+        {isDesktop && (
+          <Image
+            src="/images/showreel-poster.webp"
+            alt="Image de présentation du showreel"
+            fill
+            priority
+            className={`object-cover transition-opacity duration-700 ${
+              isShowreelLoaded ? "opacity-0" : "opacity-100"
+            }`}
+          />
+        )}
 
-        <video
-          className={`absolute inset-0 hidden h-full w-full object-cover transition-opacity duration-700 xl:block ${
-            isShowreelLoaded ? "opacity-100" : "opacity-0"
-          }`}
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
-          aria-hidden="true"
-          onLoadedData={() => setIsShowreelLoaded(true)}
-          src="/videos/showreel.mp4"
-        />
+        {isDesktop && (
+          <video
+            className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${
+              isShowreelLoaded ? "opacity-100" : "opacity-0"
+            }`}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+            aria-hidden="true"
+            onLoadedData={() => setIsShowreelLoaded(true)}
+            src="/videos/showreel.mp4"
+          />
+        )}
 
         <div className="absolute inset-0 hidden bg-black/50 xl:block" />
 
