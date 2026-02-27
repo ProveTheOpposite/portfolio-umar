@@ -1,5 +1,13 @@
 export const motionReels = [
   {
+    id: "reel-0",
+    title: "SE7EN",
+    category: "Editing",
+    videoUrl: "/videos/showreel.mp4",
+    thumbnail: "/images/reels/reel-0.png",
+    videoShowreel: true,
+  },
+  {
     id: "reel-1",
     title: "Intro Byilhan",
     category: "Concours Bikj",

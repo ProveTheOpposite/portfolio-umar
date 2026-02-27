@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 
 import { Play, X, Mail } from "lucide-react";
+
 import Image from "next/image";
 
 const Banner = () => {
@@ -27,8 +28,6 @@ const Banner = () => {
   const closeModal = useCallback(() => {
     setIsModalOpen(false);
   }, []);
-
-  console.log(isShowreelLoaded);
 
   return (
     <>
@@ -122,7 +121,7 @@ const Banner = () => {
             <Button
               size="lg"
               variant={isDesktop ? "outline" : "default"}
-              className={`mt-3 w-[182px] gap-3 rounded-full px-8 py-6 text-base active:scale-95 ${
+              className={`mt-3 w-[182px] cursor-pointer gap-3 rounded-full px-8 py-6 text-base active:scale-95 ${
                 !isDesktop ? "bg-[#1E3A8A] text-white hover:bg-[#172554]" : ""
               }`}
               onClick={() => router.push("/contact")}
@@ -177,7 +176,7 @@ const Banner = () => {
               transition={{ duration: 0.25 }}
             >
               <button
-                className="absolute -top-12 right-0 flex h-9 w-9 items-center justify-center rounded-full bg-white/10 backdrop-blur-sm"
+                className="absolute -top-12 right-0 flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur-sm"
                 onClick={closeModal}
               >
                 <X className="h-5 w-5" />
@@ -195,7 +194,7 @@ const Banner = () => {
               </div>
 
               <p className="mt-4 text-center text-sm text-white/50">
-                Showreel 2025
+                Showreel 2026
               </p>
             </motion.div>
           </motion.div>
