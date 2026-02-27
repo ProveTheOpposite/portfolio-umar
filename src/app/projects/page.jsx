@@ -66,11 +66,16 @@ const ProjectsPage = () => {
               delay={0.1}
               className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3"
             >
-              {motionReels.map((reel) => (
-                <StaggerItem key={reel.id}>
-                  <MotionReelCard reel={reel} />
-                </StaggerItem>
-              ))}
+              <StaggerItem className="sm:col-span-2 lg:col-span-3">
+                <MotionReelCard reel={motionReels[0]} />
+              </StaggerItem>
+              {motionReels
+                .filter((reel) => !reel.videoShowreel)
+                .map((reel) => (
+                  <StaggerItem key={reel.id}>
+                    <MotionReelCard reel={reel} />
+                  </StaggerItem>
+                ))}
             </StaggerContainer>
           </FadeInUp>
 
