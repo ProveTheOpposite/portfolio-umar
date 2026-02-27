@@ -18,7 +18,7 @@ const Banner = () => {
   const screenSize = useScreenSize();
   const router = useRouter();
 
-  const isDesktop = screenSize >= 1280;
+  const isDesktop = screenSize >= 1280; // 1280 = xl
 
   const openModal = () => {
     if (isDesktop) return;
@@ -137,7 +137,7 @@ const Banner = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.8 }}
-          className="absolute bottom-12 left-1/2 -translate-x-1/2"
+          className="absolute bottom-12 left-1/2 hidden -translate-x-1/2 xl:block"
         >
           <div className="border-foreground/20 flex h-10 w-6 justify-center rounded-full border-2 xl:border-white">
             <motion.div

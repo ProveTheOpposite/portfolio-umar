@@ -5,8 +5,12 @@ import { inter, spaceGrotesk } from "../fonts";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 
+// title = "Dev" si en développement pour pouvoir distinguer le site en développement du site en production
 export const metadata = {
-  title: "Umar Kukarkhoev - Motion Designer & Monteur Vidéo Freelance à Nice",
+  title:
+    process.env.NODE_ENV === "development"
+      ? "Dev"
+      : "Umar Kukarkhoev - Motion Designer & Monteur Vidéo Freelance à Nice",
   description:
     "Freelance en motion design et montage vidéo à Nice. Je crée des vidéos dynamiques et des animations percutantes pour créateurs, marques ou autres.",
 };
