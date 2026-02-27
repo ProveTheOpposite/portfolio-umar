@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { useScreenSize } from "@/hooks/useScreenSize";
 
 import { motion, AnimatePresence } from "framer-motion";
